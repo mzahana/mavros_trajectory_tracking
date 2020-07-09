@@ -1,0 +1,33 @@
+<launch>
+    <!-- Set to false if you run on real drone -->
+    <arg name="gazebo_simulation" default="true"/>
+
+    <!-- Gazebo simulation-->
+    <include if="$(arg gazebo_simulation)" file="$(find mavros_trajectory_tracking)/launch/gazebo_sim.launch">
+        <arg name="vehicle" value="iris"/>
+    </include>
+
+    <!-- MAVROS -->
+    <include file="$(find mavros_trajectory_tracking)/launch/mavros.launch">
+        <arg name="fcu_url" value="udp://:14540@localhost:14557"/>
+    </include>
+
+    <!-- Trajectory generation -->
+    <include file="$(find mavros_trajectory_tracking)/launch/trajectory_generation.launch">
+        <arg name="mav_name" value="iris"/>
+        <arg name="frame_id" value="map"/>
+        <arg name="odometry" value="mavros/local_position/odom"/>"
+    </include>
+
+    <!-- Trajectoty tracking -->
+    <include file="$(find mavros_trajectory_tracking)/launch/geometric_controller.launch">
+        <arg name="mav_name" value="iris"/>
+        <arg name="command_input" value="2" />
+        <arg name="gazebo_simulation" value="$(arg gazebo_simulation)" />
+        <arg name="max_acc" value="5.0" />
+        <arg name="init_pos_x" value="0.0" />
+        <arg name="init_pos_y" value="0.0" />
+        <arg name="init_pos_z" value="2.0" />
+    </include>
+
+</launch>

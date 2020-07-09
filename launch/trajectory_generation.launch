@@ -1,0 +1,14 @@
+<launch>
+    <arg name="mav_name" default="iris"/>
+    <arg name="frame_id" default="map"/>
+    <arg name="odometry" default="mavros/local_position/odom"/>
+    <node name="waypoint_navigator_node" pkg="waypoint_navigator" type="waypoint_navigator_node"  respawn="true" clear_params="true" output="screen">
+        <rosparam file="$(find mavros_trajectory_tracking)/config/trajectory_simple_enu.yaml"/>
+        <param name="mav_name" type="string" value="$(arg mav_name)" />
+        <param name="frame_id" type="string" value="$(arg frame_id)" />
+        <remap from="odometry" to="$(arg odometry)" />
+        <remap from="path_segments" to="path_segments_4D"/>
+    </node>
+
+    <node name="trajectory_sampler" pkg="mav_trajectory_generation_ros" type="trajectory_sampler_node" output="screen" />
+</launch>
