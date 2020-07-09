@@ -161,6 +161,9 @@ do
         cd ../ 
     fi
 done
+
+# Install MAVROS
+sudo apt install ros-melodic-mavros ros-melodic-mavros-extras -y
 ####################################### mavros_controllers setup #######################################
 echo -e "\e[1;33m Adding mavros_controllers \e[0m"
 #Adding mavros_controllers
